@@ -1,17 +1,23 @@
 import './styles/style.sass';
 import { stub } from './js/stub';
 import {
-  getMembers, mapIdsToRealNames, splitStringIntoArray
+  getIdByRealName,
+  getMembers,
+  getRealNames,
+  mapRealNamesToIds,
+  saveRow,
+  splitStringIntoArray
 } from './js/helpers';
 
 const Tabulator = require('tabulator-tables');
 
 let members = getMembers(stub);
-let idsToRealNames = mapIdsToRealNames(members);
-console.log('members');
-console.log(members);
-console.log('idsToRealNames');
-console.log(idsToRealNames);
+let realNames = getRealNames(members);
+let realNamesToIds = mapRealNamesToIds(members);
+// console.log('members');
+// console.log(members);
+// console.log('realNamesToIds');
+// console.log(realNamesToIds);
 
 const printButton = () => "<button class='save-btn'>save</button>";
 
@@ -26,9 +32,12 @@ let table = new Tabulator("#table", {
       title: "Slack Handle",
       field: "id",
       editor: "autocomplete",
-      editorParams: {showListOnEmpty: true, values: idsToRealNames},
-      // cellEdited: slackHandleCellEdited,
-    }, // TODO: bug: searching by ids, not by names. see searchFunc
+      editorParams: {
+        showListOnEmpty: true,
+        values: realNames,
+      },
+      cellEdited: slackHandleCellEdited,
+    }, // TODO: bug(fixed): searching by ids, not by names. see searchFunc [X]. use cb cellEdited and change val
     {
       title: "Aliases",
       field: "aliases",
@@ -48,23 +57,14 @@ let table = new Tabulator("#table", {
 
 function aliasCellEdited(cell) {
   cell = cell._cell; // TODO: use cell.getRow().getData();
-  console.log('~~aliasCellEdited');
-  // console.log(cell);
-  console.log(cell.row.data.id);
-  console.log(cell.value);
-
   let newAliasesValue = splitStringIntoArray(cell.value);
-  console.log('newAliasesValue');
-  console.log(newAliasesValue);
   table.updateData([{id: cell.row.data.id, aliases: newAliasesValue}]); // TODO: bug: upd by first found id
 }
 
-function saveRow(e, cell) {
-  let rowData = cell.getRow().getData();
-  let result = {
-    slackHandle: rowData.id,
-    aliases: rowData.aliases,
-  };
-  console.log('~row Saved');
-  console.log(result);
+function slackHandleCellEdited(cell) {
+  let row = cell.getRow();
+  let cellData = row.getData();
+  let realName = cellData.id;
+  let newId = getIdByRealName(realName, realNamesToIds);
+  table.updateRow(row, {id: newId});
 }
