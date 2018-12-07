@@ -13,6 +13,8 @@ console.log(members);
 console.log('idsToRealNames');
 console.log(idsToRealNames);
 
+const printButton = () => "<button class='save-btn'>save</button>";
+
 let table = new Tabulator("#table", {
   height: 658,
   pagination: "local",
@@ -33,15 +35,19 @@ let table = new Tabulator("#table", {
       editor: "input",
       cellEdited: aliasCellEdited,
     },
-    {title: "Action"},
+    {
+      width: "60",
+      title: "Action",
+      formatter: printButton,
+      align: "center",
+      cellClick: saveRow,
+      headerSort: false,
+    },
   ],
-  rowClick: function(e, row) {
-    console.log("Row " + row.getData().id + " Clicked!!!!");
-  },
 });
 
 function aliasCellEdited(cell) {
-  cell = cell._cell;
+  cell = cell._cell; // TODO: use cell.getRow().getData();
   console.log('~~aliasCellEdited');
   // console.log(cell);
   console.log(cell.row.data.id);
@@ -53,10 +59,12 @@ function aliasCellEdited(cell) {
   table.updateData([{id: cell.row.data.id, aliases: newAliasesValue}]); // TODO: bug: upd by first found id
 }
 
-// function slackHandleCellEdited(cell) {
-//   console.log('~~slackHandleCellEdited');
-//   console.log('members');
-//   console.log(members);
-//   console.log('cell');
-//   console.log(cell);
-// }
+function saveRow(e, cell) {
+  let rowData = cell.getRow().getData();
+  let result = {
+    slackHandle: rowData.id,
+    aliases: rowData.aliases,
+  };
+  console.log('~row Saved');
+  console.log(result);
+}
