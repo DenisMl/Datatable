@@ -3,6 +3,7 @@ export function getMembers(response) {
     return {
       id: member.enterprise_user.id,
       realName: member.profile.real_name,
+      aliases: [],
     }
   });
 }
@@ -15,6 +16,9 @@ export function mapIdsToRealNames(members) {
   return result;
 }
 
-// export function cellEdited(cell) {
-//
-// }
+export function splitStringIntoArray(string) {
+  let array = string.split(',');
+  return array.map((element) => {
+    return element.trim();
+  });
+}
