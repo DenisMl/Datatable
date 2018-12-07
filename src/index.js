@@ -1,31 +1,41 @@
 import './styles/style.sass';
 import { stub } from './js/stub';
+import { getMembers, mapIdsToRealNames } from './js/helpers';
 
 const Tabulator = require('tabulator-tables');
 
-let members = stub.members.map((member) => {
-  return {
-    id: member.enterprise_user.id,
-    realName: member.real_name,
-  }
-});
-
+let members = getMembers(stub);
+let idsToRealNames = mapIdsToRealNames(members);
 console.log('members');
 console.log(members);
+console.log('idsToRealNames');
+console.log(idsToRealNames);
 
 let table = new Tabulator("#table", {
-  height: 658, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+  height: 658,
   pagination: "local",
   paginationSize: 25,
-  data: members, //assign data to table
-  layout: "fitColumns", //fit columns to width of table (optional)
+  data: members,
+  layout: "fitColumns",
   columns: [
-    {title: "Slack Handle", field: "id"},
+    {
+      title: "Slack Handle",
+      field: "id",
+      editor: "autocomplete",
+      editorParams: {showListOnEmpty: true, values: idsToRealNames},
+      cellEdited: cellEdited,
+    }, // TODO: bug: searching by ids, not by names. see searchFunc
     {title: "Aliases", align: "left"},
     {title: "Action"},
-    // {title: "Date Of Birth", field: "dob", sorter: "date", align: "center"},
   ],
   rowClick: function(e, row) {
     console.log("Row " + row.getData().id + " Clicked!!!!");
   },
 });
+
+function cellEdited(cell) {
+  console.log('members');
+  console.log(members);
+  console.log('cell');
+  console.log(cell);
+}
