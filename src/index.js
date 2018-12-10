@@ -29,6 +29,10 @@ let table = new Tabulator("#table", {
   layout: "fitColumns",
   columns: [
     {
+      title: "Slack full name",
+      field: "realName",
+    },
+    {
       title: "Slack Handle",
       field: "id",
       editor: "autocomplete",
