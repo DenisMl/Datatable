@@ -4,7 +4,14 @@
 </head>
 
 <body>
-<div id="table"></div>
+<div class="main-wrapper">
+    <div class="table-search">
+        <label class="search-label" for="search-input">List of Slack Users</label>
+        <input id="search-input" class="search-input" type="text">
+        <button id="clear-search" class="clear-search">Clear</button>
+    </div>
+    <div id="table"></div>
+</div>
 <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </body>
 </html>

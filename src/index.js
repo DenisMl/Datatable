@@ -1,5 +1,6 @@
 import './styles/style.sass';
 import { stub } from './js/stub';
+import $ from 'jquery';
 import {
   getIdByRealName,
   getMembers,
@@ -19,50 +20,64 @@ let realNamesToIds = mapRealNamesToIds(members);
 // console.log('realNamesToIds');
 // console.log(realNamesToIds);
 
-const printButton = () => "<button class='save-btn'>save</button>";
+const printButton = () => '<button class="save-btn">save</button>';
 
-let table = new Tabulator("#table", {
+let table = new Tabulator('#table', {
   height: 658,
-  pagination: "local",
+  pagination: 'local',
   paginationSize: 25,
   data: members,
-  layout: "fitColumns",
+  layout: 'fitColumns',
   columns: [
     {
-      title: "Slack full name",
-      field: "realName",
+      title: 'Full name',
+      field: 'realName',
     },
     {
-      title: "Slack Handle",
-      field: "id",
-      editor: "autocomplete",
+      title: 'Slack Handle',
+      field: 'id',
+      editor: 'autocomplete',
       editorParams: {
         showListOnEmpty: true,
         values: realNames,
       },
       cellEdited: slackHandleCellEdited,
-    }, // TODO: bug(fixed): searching by ids, not by names. see searchFunc [X]. use cb cellEdited and change val
+    },
     {
-      title: "Aliases",
-      field: "aliases",
-      editor: "input",
+      title: 'Aliases',
+      field: 'aliases',
+      editor: 'input',
       cellEdited: aliasCellEdited,
     },
     {
-      width: "60",
-      title: "Action",
+      width: '60',
+      title: 'Action',
       formatter: printButton,
-      align: "center",
+      align: 'center',
       cellClick: saveRow,
       headerSort: false,
     },
   ],
 });
 
+$('#search-input').change(updateFilter);
+$('#search-input').keyup(updateFilter);
+$('#clear-search').click(clearSearch);
+
+function updateFilter() {
+  let val = $('#search-input').val();
+  table.setFilter('realName', 'like', val);
+}
+
+function clearSearch() {
+  $('#search-input').val('');
+  table.clearFilter();
+}
+
 function aliasCellEdited(cell) {
-  cell = cell._cell; // TODO: use cell.getRow().getData();
-  let newAliasesValue = splitStringIntoArray(cell.value);
-  table.updateData([{id: cell.row.data.id, aliases: newAliasesValue}]); // TODO: bug: upd by first found id
+  let aliases = splitStringIntoArray(cell.getValue());
+  let id = cell.getRow().getData().id;
+  table.updateData([{id, aliases}]); // TODO: bug: upd by first found id
 }
 
 function slackHandleCellEdited(cell) {

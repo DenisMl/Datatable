@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "css-reset-and-normalize": "^1.0.1",
+    "jquery": "^3.3.1",
     "tabulator-tables": "^4.1.3"
   }
 }
