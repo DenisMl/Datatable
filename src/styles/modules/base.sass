@@ -5,28 +5,32 @@ html
   box-sizing: border-box 
   color: $primary-color
   font-family: $primary-font
-  background: #f1f1f1
 
 .main-wrapper
   max-width: 1300px
   margin: 0 auto
 
 .table-search
-  padding: 20px 0
+  .input-group
+    max-width: 500px
 
 .search-label
-  display: block
-  margin-bottom: 10px
+  font-weight: 700
+  margin: 20px 0 10px
 
-.search-input
+.tabulator-cell .btn
+  margin: -9px
+  height: 42px
+  width: 82px
 
-.clear-search
+.tabulator
+  .tabulator-row
+    background-color: $white
+  .tabulator-row-even, .tabulator-header .tabulator-col, .tabulator-footer
+    background-color: $table-dark-bg
 
-.tabulator-tableHolder
-  background-color: $table-bg
+.tabulator-edit-select-list-item
+  background-color: $white
 
-.save-btn
-  width: 60px
-  height: 24px
-  margin: -4px
-
+.tabulator-edit-select-list .tabulator-edit-select-list-item:hover
+  color: $white

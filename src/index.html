@@ -6,9 +6,16 @@
 <body>
 <div class="main-wrapper">
     <div class="table-search">
-        <label class="search-label" for="search-input">List of Slack Users</label>
-        <input id="search-input" class="search-input" type="text">
-        <button id="clear-search" class="clear-search">Clear</button>
+        <div class="search-label">List of Slack Users</div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Search:</span>
+            </div>
+            <input type="text" id="search-input" class="form-control" placeholder="Full name" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="clear-search">Clear</button>
+            </div>
+        </div>
     </div>
     <div id="table"></div>
 </div>

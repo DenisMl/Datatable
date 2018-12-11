@@ -3,7 +3,7 @@ export function getMembers(membersResponse = {members: []}, aliasesStub = []) {
   return membersResponse.members.map((member) => {
     const id = member.enterprise_user.id;
     const realName = member.profile.real_name;
-    const aliases = aliasesToId[member.enterprise_user.id];
+    const aliases = aliasesToId[member.enterprise_user.id] || [];
     return {
       id,
       realName,

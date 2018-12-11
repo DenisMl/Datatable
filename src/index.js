@@ -9,6 +9,7 @@ import {
   saveRow,
   splitStringIntoArray,
 } from './js/helpers';
+import { printButton } from './js/elementFormatters';
 
 const Tabulator = require('tabulator-tables');
 
@@ -20,12 +21,10 @@ let realNamesToIds = mapRealNamesToIds(members);
 // console.log('realNamesToIds');
 // console.log(realNamesToIds);
 
-const printButton = () => '<button class="save-btn">save</button>';
-
 let table = new Tabulator('#table', {
-  height: 658,
+  height: 847,
   pagination: 'local',
-  paginationSize: 25,
+  paginationSize: 15,
   data: members,
   layout: 'fitColumns',
   columns: [
@@ -48,9 +47,10 @@ let table = new Tabulator('#table', {
       field: 'aliases',
       editor: 'input',
       cellEdited: aliasCellEdited,
+      headerSort: false,
     },
     {
-      width: '60',
+      width: '90',
       title: 'Action',
       formatter: printButton,
       align: 'center',
