@@ -35040,3 +35040,47 @@ export const stub = {
   ],
   "cache_ts": 1544135552
 };
+
+export const aliasesStub = [
+  {
+    "user_id": "WCJ09TR16",
+    "full name": "steven david",
+    "aliases": ["steve1", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WCJ09U42C",
+    "full name": "steven david",
+    "aliases": ["steve2", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WAA2YUQUQ",
+    "full name": "steven david",
+    "aliases": ["steve3", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WAATGPH6Z",
+    "full name": "steven david",
+    "aliases": ["steve4", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WCJMJ3998",
+    "full name": "steven david",
+    "aliases": ["steve5", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WCJS1UCUV",
+    "full name": "steven david",
+    "aliases": ["steve6", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WCJS1UF9B",
+    "full name": "steven david",
+    "aliases": ["steve7", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WCJ09UKMW",
+    "full name": "steven david",
+    "aliases": ["steve8", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WCKNNK3SB",
+    "full name": "steven david",
+    "aliases": ["steve9", "carl", "steve@yahoo.com"]
+  }, {
+    "user_id": "WCJHVBV8T",
+    "full name": "steven david",
+    "aliases": ["steve10", "carl", "steve@yahoo.com"]
+  },
+];

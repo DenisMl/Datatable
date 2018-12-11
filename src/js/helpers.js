@@ -1,11 +1,23 @@
-export function getMembers(response) {
-  return response.members.map((member) => {
+export function getMembers(membersResponse = {members: []}, aliasesStub = []) {
+  const aliasesToId = mapAliasesToId(aliasesStub);
+  return membersResponse.members.map((member) => {
+    const id = member.enterprise_user.id;
+    const realName = member.profile.real_name;
+    const aliases = aliasesToId[member.enterprise_user.id];
     return {
-      id: member.enterprise_user.id,
-      realName: member.profile.real_name,
-      aliases: [],
+      id,
+      realName,
+      aliases,
     }
   });
+}
+
+function mapAliasesToId(aliasesStub) {
+  let res = {};
+  aliasesStub.forEach((member) => {
+    res[member.user_id] = member.aliases
+  });
+  return res;
 }
 
 export function getRealNames(members) {

@@ -1,5 +1,5 @@
 import './styles/style.sass';
-import { stub } from './js/stub';
+import { stub, aliasesStub } from './js/stub';
 import $ from 'jquery';
 import {
   getIdByRealName,
@@ -7,15 +7,15 @@ import {
   getRealNames,
   mapRealNamesToIds,
   saveRow,
-  splitStringIntoArray
+  splitStringIntoArray,
 } from './js/helpers';
 
 const Tabulator = require('tabulator-tables');
 
-let members = getMembers(stub);
+let members = getMembers(stub, aliasesStub); // After aliases and members retrieving
 let realNames = getRealNames(members);
 let realNamesToIds = mapRealNamesToIds(members);
-// console.log('members');
+// console.log('~members');
 // console.log(members);
 // console.log('realNamesToIds');
 // console.log(realNamesToIds);
