@@ -1,3 +1,5 @@
+import { saveMember } from './requests';
+
 export function getMembers(membersResponse = {members: []}, aliasesStub = []) {
   const aliasesToId = mapAliasesToId(aliasesStub);
   return membersResponse.members.map((member) => {
@@ -52,6 +54,10 @@ export function saveRow(e, cell) {
     slackHandle: rowData.id,
     aliases: rowData.aliases,
   };
-  console.log('~row Saved');
-  console.log(result);
+  saveMember(result)
+    .then((res) => {
+      console.log('~res');
+      console.log(res);
+      alert('Successfully saved!')
+    })
 }

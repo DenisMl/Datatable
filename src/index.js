@@ -1,5 +1,4 @@
 import './styles/style.sass';
-import { stub, aliasesStub } from './js/stub';
 import $ from 'jquery';
 import {
   getIdByRealName,
@@ -10,55 +9,66 @@ import {
   splitStringIntoArray,
 } from './js/helpers';
 import { printButton } from './js/elementFormatters';
+import { fetchMembersAndAliases } from './js/requests';
 
 const Tabulator = require('tabulator-tables');
+let table, members, realNames, realNamesToIds;
 
-let members = getMembers(stub, aliasesStub); // After aliases and members retrieving
-let realNames = getRealNames(members);
-let realNamesToIds = mapRealNamesToIds(members);
-// console.log('~members');
-// console.log(members);
-// console.log('realNamesToIds');
-// console.log(realNamesToIds);
+fetchMembersAndAliases()
+  .then((res) => {
+    console.log('~res');
+    console.log(res);
+    initTable(res[0], res[1]);
+  })
+  .catch((err) => {
+    console.error(err);
+    alert("Can't load data. Try later");
+  });
 
-let table = new Tabulator('#table', {
-  height: 847,
-  pagination: 'local',
-  paginationSize: 15,
-  data: members,
-  layout: 'fitColumns',
-  columns: [
-    {
-      title: 'Full name',
-      field: 'realName',
-    },
-    {
-      title: 'Slack Handle',
-      field: 'id',
-      editor: 'autocomplete',
-      editorParams: {
-        showListOnEmpty: true,
-        values: realNames,
+function initTable(membersRes, aliasesRes) {
+  members = getMembers(membersRes, aliasesRes);
+  realNames = getRealNames(members);
+  realNamesToIds = mapRealNamesToIds(members);
+
+  table = new Tabulator('#table', {
+    height: 847,
+    pagination: 'local',
+    paginationSize: 15,
+    data: members,
+    layout: 'fitColumns',
+    columns: [
+      {
+        title: 'Full name',
+        field: 'realName',
       },
-      cellEdited: slackHandleCellEdited,
-    },
-    {
-      title: 'Aliases',
-      field: 'aliases',
-      editor: 'input',
-      cellEdited: aliasCellEdited,
-      headerSort: false,
-    },
-    {
-      width: '90',
-      title: 'Action',
-      formatter: printButton,
-      align: 'center',
-      cellClick: saveRow,
-      headerSort: false,
-    },
-  ],
-});
+      {
+        title: 'Slack Handle',
+        field: 'id',
+        editor: 'autocomplete',
+        editorParams: {
+          showListOnEmpty: true,
+          values: realNames,
+        },
+        cellEdited: slackHandleCellEdited,
+      },
+      {
+        title: 'Aliases',
+        field: 'aliases',
+        editor: 'input',
+        cellEdited: aliasCellEdited,
+        headerSort: false,
+      },
+      {
+        width: '90',
+        title: 'Action',
+        formatter: printButton,
+        align: 'center',
+        cellClick: saveRow,
+        headerSort: false,
+      },
+    ],
+  });
+}
 
 $('#search-input').change(updateFilter);
 $('#search-input').keyup(updateFilter);
