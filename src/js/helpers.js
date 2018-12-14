@@ -50,8 +50,8 @@ export function splitStringIntoArray(string) {
 export function saveRow(e, cell) {
   let rowData = cell.getRow().getData();
   let result = {
-    realName: rowData.realName,
-    slackHandle: rowData.id,
+    full_name: rowData.realName,
+    slack_handle: rowData.id,
     aliases: rowData.aliases,
   };
   saveMember(result)
