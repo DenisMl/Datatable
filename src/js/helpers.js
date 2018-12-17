@@ -17,7 +17,7 @@ export function getMembers(membersResponse = {members: []}, aliasesStub = []) {
 function mapAliasesToId(aliasesStub) {
   let res = {};
   aliasesStub.forEach((member) => {
-    res[member.user_id] = member.aliases
+    res[member['slack handle']] = member.aliases
   });
   return res;
 }
@@ -56,8 +56,11 @@ export function saveRow(e, cell) {
   };
   saveMember(result)
     .then((res) => {
-      console.log('~res');
+      console.log('~saving res');
       console.log(res);
       alert('Successfully saved!')
+    })
+    .catch(() => { // TODO: error handling. res.ok = false (everytime)
+      alert('Saving error!')
     })
 }
