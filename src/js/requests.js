@@ -25,7 +25,7 @@ export function saveMember(body) {
       },
       method: 'POST',
       body: body,
-      credentials: 'omit'
+      mode: 'no-cors',
     });
   } catch (err) {
     console.error(err);
